@@ -8,7 +8,15 @@
 
 import UIKit
 
+enum CloudTrackerAPIError: Error {
+  case badURL
+  case requestError
+  case invalidJSON
+  case badCredentials
+}
+
 class CloudTrackerManager {
+  
   
   static let shared = CloudTrackerManager()
   
@@ -17,7 +25,7 @@ class CloudTrackerManager {
   private let tokenKey = "token"
   
   
-  func post(data: [String: Any], toEndpoint: String, completion: @escaping  (Data?, NSError?)->(Void)){
+  func post(data: [String: Any], toEndpoint: String, completion: @escaping  (Data?, Error?)->(Void)){
     guard let postJSON = try? JSONSerialization.data(withJSONObject: data, options: []) else {
       print("could not serialize json")
       return
@@ -37,16 +45,19 @@ class CloudTrackerManager {
       
       guard let response = response as? HTTPURLResponse else {
         print("no response returned from server \(String(describing: error))")
+        completion(nil, CloudTrackerAPIError.requestError)
         return
       }
       guard let json = try? JSONSerialization.jsonObject(with: data, options: []) as! Dictionary<String, Any> else {
         print("data returned is not json, or not valid")
+        completion(nil, CloudTrackerAPIError.invalidJSON)
         return
       }
       
       guard response.statusCode == 200 else {
         // handle error
         print("an error occurred \(String(describing: json["error"]))")
+        completion(nil, CloudTrackerAPIError.badCredentials)
         return
       }
       
@@ -59,7 +70,7 @@ class CloudTrackerManager {
     
   }
   
-  func signupUser(username: String, password: String , completion: @escaping  (String?)->(Void)) -> Void {
+  func signupUser(username: String, password: String , completion: @escaping  (String?, Error?)->(Void)) -> Void {
     let postData:[String: Any] = [
       "username": username,
       "password": password
@@ -71,18 +82,20 @@ class CloudTrackerManager {
       
       guard let data = data, let json = try? JSONSerialization.jsonObject(with: data, options: []) as? Dictionary<String, Any> else {
         print("data returned is not json, or not valid")
+        completion(nil, CloudTrackerAPIError.invalidJSON)
         return
       }
       if let token = json?[self.tokenKey] as? String {
         print("\(username) - Token is \(token)")
-        completion(token)
+        completion(token, error)
+        return
       }
       
     }
 
   }
 
-  func loginUser(username: String, password: String, completion: @escaping  (String?)->(Void)) -> Void {
+  func loginUser(username: String, password: String, completion: @escaping  (String?, Error?)->(Void)) -> Void {
     let postData:[String: Any] = [
       "username": username,
       "password": password
@@ -93,11 +106,12 @@ class CloudTrackerManager {
       print("handle login api data from loginUser()")
       guard let data = data, let json = try? JSONSerialization.jsonObject(with: data, options: []) as? Dictionary<String, Any> else {
         print("data returned is not json, or not valid")
+        completion(nil, CloudTrackerAPIError.invalidJSON)
         return
       }
       if let token = json?[self.tokenKey] as? String {
         print("username \(username), token is \(token)")
-        completion(token)
+        completion(token, error)
       }
       
       

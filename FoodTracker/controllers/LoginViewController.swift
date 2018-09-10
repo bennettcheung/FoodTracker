@@ -100,7 +100,15 @@ class LoginViewController: UIViewController {
       //try first time, then try to sign up on the server
       
       if savedToken == ""{
-        CloudTrackerManager.shared.signupUser(username: username, password: password, completion: { (token) -> (Void) in
+        CloudTrackerManager.shared.signupUser(username: username, password: password, completion: { (token, error) -> (Void) in
+          
+          if error != nil {
+            DispatchQueue.main.async {
+              self.showLoginErrorAlert(message: "Problem signing up the user!  Try again later. ")
+            }
+            return
+          }
+          
           //save credentials in userdefault
           UserDefaults.standard.set(username, forKey: self.usernameKey)
           UserDefaults.standard.set(password, forKey: self.passwordKey)
@@ -110,7 +118,17 @@ class LoginViewController: UIViewController {
       }
       else{
       
-        CloudTrackerManager.shared.loginUser(username: username, password: password, completion: { (token) -> (Void) in
+        CloudTrackerManager.shared.loginUser(username: username, password: password, completion: { (token, error) -> (Void) in
+          
+          if error != nil {
+            
+            DispatchQueue.main.async {
+                self.showLoginErrorAlert(message: "Problem logging in!  Try again later. ")
+            }
+
+            return
+          }
+          
           //save credentials in userdefault
           UserDefaults.standard.set(username, forKey: self.usernameKey)
           UserDefaults.standard.set(password, forKey: self.passwordKey)
