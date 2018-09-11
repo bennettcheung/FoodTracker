@@ -28,19 +28,9 @@ class MealTableViewController: UITableViewController {
       navigationItem.leftBarButtonItem = editButtonItem
       
       // Load any saved meals, otherwise load sample data.
-      if let savedMeals = loadMeals() {
-        meals += savedMeals
-      }
-      else {
-        // Load the sample data.
-        loadSampleMeals()
-      }
+      loadMeals()
     }
 
-    override func didReceiveMemoryWarning() {
-        super.didReceiveMemoryWarning()
-        // Dispose of any resources that can be recreated.
-    }
 
     // MARK: - Table view data source
 
@@ -165,16 +155,22 @@ class MealTableViewController: UITableViewController {
   }
   
   private func saveMeals() {
-    let isSuccessfulSave = NSKeyedArchiver.archiveRootObject(meals, toFile: Meal.ArchiveURL.path)
-    if isSuccessfulSave {
-      os_log("Meals successfully saved.", log: OSLog.default, type: .debug)
-    } else {
-      os_log("Failed to save meals...", log: OSLog.default, type: .error)
-    }
+//    let isSuccessfulSave = NSKeyedArchiver.archiveRootObject(meals, toFile: Meal.ArchiveURL.path)
+//    if isSuccessfulSave {
+//      os_log("Meals successfully saved.", log: OSLog.default, type: .debug)
+//    } else {
+//      os_log("Failed to save meals...", log: OSLog.default, type: .error)
+//    }
   }
   
-  private func loadMeals() -> [Meal]?  {
-    return NSKeyedUnarchiver.unarchiveObject(withFile: Meal.ArchiveURL.path) as? [Meal]
+  private func loadMeals() {
+    
+    CloudTrackerManager.shared.getAllMeal(completion: { (mealArray, error) -> (Void) in
+      if error == nil, let mealArray = mealArray{
+        self.meals = mealArray
+        self.tableView.reloadData()
+      }
+    })
   }
   
   //MARK: Actions
