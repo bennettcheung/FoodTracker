@@ -61,15 +61,25 @@ class LoginViewController: UIViewController {
     
     self.present(alert, animated: true)
   }
-    /*
+  
     // MARK: - Navigation
 
     // In a storyboard-based application, you will often want to do a little preparation before navigation
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         // Get the new view controller using segue.destinationViewController.
         // Pass the selected object to the new view controller.
+      if segue.identifier == "segueToMainScreen"{
+        guard let navController = segue.destination as? UINavigationController else{
+          return
+        }
+          
+        guard let rootController = navController.viewControllers[0] as? MealTableViewController else{
+          return
+        }
+        rootController.userToken = savedToken
+      }
     }
-    */
+  
   
   func validUsernamePassword() -> Bool{
     if let username = usernameTextField.text, username.contains(" "){
@@ -113,6 +123,7 @@ class LoginViewController: UIViewController {
           UserDefaults.standard.set(username, forKey: self.usernameKey)
           UserDefaults.standard.set(password, forKey: self.passwordKey)
           UserDefaults.standard.set(token, forKey: self.tokenKey)
+          self.performSegue(withIdentifier: "segueToMainScreen", sender: self)
         })
           
       }
@@ -120,7 +131,7 @@ class LoginViewController: UIViewController {
       
         CloudTrackerManager.shared.loginUser(username: username, password: password, completion: { (token, error) -> (Void) in
           
-          if error != nil {
+          guard let token = token, error == nil else{
             
             DispatchQueue.main.async {
                 self.showLoginErrorAlert(message: "Problem logging in!  Try again later. ")
@@ -133,6 +144,8 @@ class LoginViewController: UIViewController {
           UserDefaults.standard.set(username, forKey: self.usernameKey)
           UserDefaults.standard.set(password, forKey: self.passwordKey)
           UserDefaults.standard.set(token, forKey: self.tokenKey)
+          
+          self.savedToken = token
           
           self.performSegue(withIdentifier: "segueToMainScreen", sender: self)
         })

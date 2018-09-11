@@ -16,12 +16,15 @@ class MealViewController: UIViewController  {
    or constructed as part of adding a new meal.
    */
   var meal: Meal?
+  var userToken:String = ""
   
   //MARK: Properties
   
   @IBOutlet weak var photoImageView: UIImageView!
   @IBOutlet weak var nameTextField: UITextField!
   @IBOutlet weak var ratingControl: RatingControl!
+  @IBOutlet weak var descriptionTextField: UITextField!
+  @IBOutlet weak var caloriesTextField: UITextField!
   @IBOutlet weak var saveButton: UIBarButtonItem!
 
   
@@ -106,15 +109,34 @@ extension MealViewController : UIImagePickerControllerDelegate, UINavigationCont
       return
     }
     
-    let name = nameTextField.text ?? ""
-    let photo = photoImageView.image
-    let rating = ratingControl.rating
-    
-    // Set the meal to be passed to MealTableViewController after the unwind segue.
-    meal = Meal(name: name, photo: photo, rating: rating)
+
+
   }
   
   //MARK: Navigation
+  @IBAction func save(_ sender: UIBarButtonItem){
+    let name = nameTextField.text ?? ""
+    let photo = photoImageView.image
+    let rating = ratingControl.rating
+    let description = descriptionTextField.text ?? ""
+    let calories = Int(caloriesTextField.text ?? "0") ?? 0
+    
+    // Set the meal to be passed to MealTableViewController after the unwind segue.
+    meal = Meal(id: 0, userId: userToken, name: name, photo: photo, rating: rating, calories: calories, mealDescription: description)
+    
+    if let meal = meal{
+      CloudTrackerManager.shared.saveMeal(meal: meal, completion: { (error) -> (Void) in
+        //handle error
+        if (error != nil){
+          print("Error occured")
+          return
+        }
+        self.performSegue(withIdentifier: "segueBackToMealList", sender: self)
+      })
+    }
+    
+  }
+  
   
   @IBAction func cancel(_ sender: UIBarButtonItem) {
     // Depending on style of presentation (modal or push presentation), this view controller needs to be dismissed in two different ways.

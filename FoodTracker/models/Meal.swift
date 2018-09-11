@@ -20,17 +20,20 @@ struct PropertyKey {
 class Meal : NSObject, NSCoding{
   
   //MARK: Types
-  
+  var id: Int
+  var userId: String
   var name: String
   var photo: UIImage?
   var rating: Int
+  var calories: Int
+  var mealDescription: String
   
   //MARK: Archiving Paths
   
   static let DocumentsDirectory = FileManager().urls(for: .documentDirectory, in: .userDomainMask).first!
   static let ArchiveURL = DocumentsDirectory.appendingPathComponent("meals")
   
-  init?(name: String, photo: UIImage?, rating: Int) {
+  init?(id: Int, userId: String, name: String, photo: UIImage?, rating: Int, calories: Int, mealDescription: String) {
     
     // The name must not be empty
     guard !name.isEmpty else {
@@ -38,9 +41,13 @@ class Meal : NSObject, NSCoding{
     }
     
     // Initialize stored properties.
+    self.id = id
+    self.userId = userId
     self.name = name
     self.photo = photo
     self.rating = rating
+    self.calories = calories
+    self.mealDescription = mealDescription
   }
   
   //MARK: NSCoding
@@ -64,7 +71,7 @@ class Meal : NSObject, NSCoding{
     let rating = aDecoder.decodeInteger(forKey: PropertyKey.rating)
     
     // Must call designated initializer.
-    self.init(name: name, photo: photo, rating: rating)
+    self.init(id: 0, userId: "nouserid", name: name, photo: photo, rating: rating, calories: 0, mealDescription: "")
     
   }
 }

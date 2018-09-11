@@ -22,7 +22,18 @@ class CloudTrackerManager {
   
   private let signupEndpointURL = "https://cloud-tracker.herokuapp.com/signup"
   private let loginEndpointURL = "https://cloud-tracker.herokuapp.com/login"
+  private let saveMealURL = "https://cloud-tracker.herokuapp.com/users/me/meals"
+  private let rateURL = "/rate"
+  
   private let tokenKey = "token"
+  private let titleKey = "title"
+  private let caloriesKey = "calories"
+  private let descriptionKey = "description"
+  private let mealKey = "meal"
+  private let idKey = "id"
+  private let ratingKey = "rating"
+  
+  private var savedToken:String?
   
   
   func post(data: [String: Any], toEndpoint: String, completion: @escaping  (Data?, Error?)->(Void)){
@@ -36,6 +47,9 @@ class CloudTrackerManager {
     request.httpBody = postJSON
     request.httpMethod = "POST"
     request.addValue("application/json", forHTTPHeaderField: "Content-Type")
+    if let savedToken = savedToken{
+      request.addValue(savedToken, forHTTPHeaderField: "token")
+    }
     let task = URLSession.shared.dataTask(with: request as URLRequest) { (data: Data?, response: URLResponse?, error: Error?) in
       
       guard let data = data else {
@@ -87,6 +101,7 @@ class CloudTrackerManager {
       }
       if let token = json?[self.tokenKey] as? String {
         print("\(username) - Token is \(token)")
+        self.savedToken = token
         completion(token, error)
         return
       }
@@ -111,14 +126,64 @@ class CloudTrackerManager {
       }
       if let token = json?[self.tokenKey] as? String {
         print("username \(username), token is \(token)")
+        self.savedToken = token
         completion(token, error)
       }
-      
-      
-      
     }
-    
-    return
   }
   
+  
+  func saveMeal(meal: Meal, completion: @escaping (Error?)->(Void)){
+    let postData:[String: Any] = [
+      titleKey: meal.name,
+      caloriesKey: meal.calories,
+      descriptionKey: meal.mealDescription
+    ]
+    post(data: postData, toEndpoint: saveMealURL) { (data, error) -> (Void) in
+      //do something with the data
+      print("handle login api data from saveMealURL()")
+      guard let data = data, let json = try? JSONSerialization.jsonObject(with: data, options: []) as? Dictionary<String, Any> else {
+        print("data returned is not json, or not valid")
+        completion(CloudTrackerAPIError.invalidJSON)
+        return
+      }
+      if let mealJson = json?[self.mealKey] as? [String: Any] {
+        if let mealId = mealJson[self.idKey] as? Int
+        {
+          //save the new meal ID
+          print("meal id is \(mealId)")
+          meal.id = mealId
+          self.saveMealRating(meal: meal, completion: completion)
+        }
+      }
+    }
+    
+  }
+  
+  
+  func saveMealRating(meal: Meal, completion: @escaping (Error?)->(Void)){
+    let saveMealRatingURL = saveMealURL + "/" + meal.id.description + rateURL
+    let postData:[String: Any] = [
+      ratingKey: meal.rating,
+    ]
+    post(data: postData, toEndpoint: saveMealRatingURL) { (data, error) -> (Void) in
+      //do something with the data
+      print("handle api data from saveMealRatingURL()")
+      guard let data = data, let json = try? JSONSerialization.jsonObject(with: data, options: []) as? Dictionary<String, Any> else {
+        print("data returned is not json, or not valid")
+        completion(CloudTrackerAPIError.invalidJSON)
+        return
+      }
+      if let mealJson = json?[self.mealKey] as? [String: Any] {
+        if let mealRating = mealJson[self.ratingKey] as? Int
+        {
+          // rating is set
+          print("meal rating is \(mealRating)")
+          
+          completion(nil)
+        }
+      }
+    }
+    
+  }
 }

@@ -14,7 +14,7 @@ class MealTableViewController: UITableViewController {
   //MARK: Properties
   
   var meals = [Meal]()
-  
+  var userToken:String = ""
   
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -136,6 +136,7 @@ class MealTableViewController: UITableViewController {
         
         let selectedMeal = meals[indexPath.row]
         mealDetailViewController.meal = selectedMeal
+        mealDetailViewController.userToken = userToken
         
       default:
         fatalError("Unexpected Segue Identifier; \(segue.identifier)")
@@ -148,19 +149,19 @@ class MealTableViewController: UITableViewController {
     let photo1 = UIImage(named: "meal1")
     let photo2 = UIImage(named: "meal2")
     let photo3 = UIImage(named: "meal3")
-    guard let meal1 = Meal(name: "Caprese Salad", photo: photo1, rating: 4) else {
-      fatalError("Unable to instantiate meal1")
-    }
+//    guard let meal1 = Meal(name: "Caprese Salad", photo: photo1, rating: 4) else {
+//      fatalError("Unable to instantiate meal1")
+//    }
+//
+//    guard let meal2 = Meal(name: "Chicken and Potatoes", photo: photo2, rating: 5) else {
+//      fatalError("Unable to instantiate meal2")
+//    }
+//
+//    guard let meal3 = Meal(name: "Pasta with Meatballs", photo: photo3, rating: 3) else {
+//      fatalError("Unable to instantiate meal2")
+//    }
     
-    guard let meal2 = Meal(name: "Chicken and Potatoes", photo: photo2, rating: 5) else {
-      fatalError("Unable to instantiate meal2")
-    }
-    
-    guard let meal3 = Meal(name: "Pasta with Meatballs", photo: photo3, rating: 3) else {
-      fatalError("Unable to instantiate meal2")
-    }
-    
-    meals += [meal1, meal2, meal3]
+//    meals += [meal1, meal2, meal3]
   }
   
   private func saveMeals() {
