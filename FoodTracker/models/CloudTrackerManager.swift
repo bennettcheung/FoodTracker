@@ -206,19 +206,9 @@ class CloudTrackerManager {
           
           //save meal reating first
           self.saveMealRating(meal: meal, completion: { (error) -> (Void) in
-            if let photo = meal.photo {
-              //then try to post the image
-              self.postImage(image: photo, completion: { (link, error) -> (Void) in
-                guard let link = link else{
-                  completion(error)
-                  return
-                }
-                //lastly, save the image url
-                self.saveMealImageURL(meal: meal, url: link, completion: { (error) -> (Void) in
-                  completion(error)
-                })
-              })
-            }
+
+          self.postImage(meal: meal, completion: completion)
+
           })
 
         }
@@ -311,8 +301,11 @@ class CloudTrackerManager {
   }
   
   
-  func postImage(image: UIImage, completion: @escaping  (String?, Error?)->(Void)){
+  func postImage(meal: Meal, completion: @escaping  (Error?)->(Void)){
 
+    guard let image = meal.photo else{
+      return
+    }
     let url = URL(string: IMGUR_URL)!
     let request = NSMutableURLRequest(url: url)
     let imageData = UIImageJPEGRepresentation(image, 0.1)
@@ -338,30 +331,33 @@ class CloudTrackerManager {
       
       guard let response = response as? HTTPURLResponse else {
         print("no response returned from server \(String(describing: error))")
-        completion(nil, CloudTrackerAPIError.requestError)
+        completion(CloudTrackerAPIError.requestError)
         return
       }
       guard let json = try? JSONSerialization.jsonObject(with: data, options: []) as! Dictionary<String, Any> else {
         print("data returned is not json, or not valid")
-        completion(nil, CloudTrackerAPIError.invalidJSON)
+        completion(CloudTrackerAPIError.invalidJSON)
         return
       }
       
       guard response.statusCode == 200 else {
         // handle error
         print("an error occurred \(String(describing: json["error"]))")
-        completion(nil, CloudTrackerAPIError.badCredentials)
+        completion(CloudTrackerAPIError.badCredentials)
         return
       }
       
       // do something with the json object
       guard let result = json[self.DATA_KEY] as? [String: Any],
         let imageURL = result[self.LINK_KEY] as? String else{
-        completion(nil, CloudTrackerAPIError.invalidJSON)
+        completion(CloudTrackerAPIError.invalidJSON)
         return
       }
-
-      completion(imageURL, nil)
+      
+      //lastly, save the image url
+      self.saveMealImageURL(meal: meal, url: imageURL, completion: { (error) -> (Void) in
+        completion(error)
+      })
       
     }
     

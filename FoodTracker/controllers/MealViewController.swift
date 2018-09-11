@@ -39,6 +39,8 @@ class MealViewController: UIViewController  {
       nameTextField.text   = meal.name
       photoImageView.image = meal.photo
       ratingControl.rating = meal.rating
+      descriptionTextField.text = meal.mealDescription
+      caloriesTextField.text = meal.calories.description
     }
     
     // Enable the Save button only if the text field has a valid Meal name.
@@ -121,27 +123,39 @@ extension MealViewController : UIImagePickerControllerDelegate, UINavigationCont
     let description = descriptionTextField.text ?? ""
     let calories = Int(caloriesTextField.text ?? "0") ?? 0
     
-    // Set the meal to be passed to MealTableViewController after the unwind segue.
-    meal = Meal(id: 0, userId: userToken, name: name, photo: photo, rating: rating, calories: calories, mealDescription: description)
-    
+    //edit mode
     if let meal = meal{
-      CloudTrackerManager.shared.saveMeal(meal: meal, completion: { (error) -> (Void) in
-        //handle error
-        if (error != nil){
-          print("Error occured")
-          return
-        }
-        self.performSegue(withIdentifier: "segueBackToMealList", sender: self)
-      })
+      meal.rating = rating
+      meal.photo = photo
+      
+      CloudTrackerManager.shared.saveMealRating(meal: meal, completion: unwindDetailScreen)
+    }
+    else{
+      // Set the meal to be passed to MealTableViewController after the unwind segue.
+      meal = Meal(id: 0, userId: userToken, name: name, photo: photo, rating: rating, calories: calories, mealDescription: description)
+      
+      if let meal = meal{
+        CloudTrackerManager.shared.saveMeal(meal: meal, completion: unwindDetailScreen)
+      }
     }
     
   }
   
+  func unwindDetailScreen(error:Error? ) {
+    //handle error
+    if (error != nil){
+      print("Error occured")
+      return
+    }
+//    self.performSegue(withIdentifier: "segueBackToMealList", sender: self)
+    cancel(saveButton)
+  }
   
   @IBAction func cancel(_ sender: UIBarButtonItem) {
+
     // Depending on style of presentation (modal or push presentation), this view controller needs to be dismissed in two different ways.
     let isPresentingInAddMealMode = presentingViewController is UINavigationController
-    
+
     if isPresentingInAddMealMode {
       dismiss(animated: true, completion: nil)
     }

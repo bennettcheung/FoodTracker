@@ -57,8 +57,10 @@ class MealTableViewController: UITableViewController {
       
     
       loadMealImage(meal: meal) { (error) -> (Void) in
+        
+          DispatchQueue.main.async {
             cell.photoImageView.image = meal.photo
-
+        }
       }
 
         return cell
