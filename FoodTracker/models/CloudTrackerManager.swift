@@ -299,6 +299,7 @@ class CloudTrackerManager {
           let imagePath = element[self.IMAGE_PATH_KEY] as? String ?? ""
           
           if let meal = Meal(id: mealID, userId: self.savedToken!, name: title, photo: nil, rating: rating, calories: calories, mealDescription: description){
+            meal.imagePath = imagePath
             result.append(meal)
           }
         }

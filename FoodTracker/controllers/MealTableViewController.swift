@@ -53,8 +53,13 @@ class MealTableViewController: UITableViewController {
       // Fetches the appropriate meal for the data source layout.
       let meal = meals[indexPath.row]
       cell.nameLabel.text = meal.name
-      cell.photoImageView.image = meal.photo
       cell.ratingControl.rating = meal.rating
+      
+    
+      loadMealImage(meal: meal) { (error) -> (Void) in
+            cell.photoImageView.image = meal.photo
+
+      }
 
         return cell
     }
@@ -75,7 +80,7 @@ class MealTableViewController: UITableViewController {
         // Delete the row from the data source
         let meal = meals[indexPath.row]
         CloudTrackerManager.shared.delete(mealID: meal.id) { (error) -> (Void) in
-          print(error)
+          print("Error deleting the meal")
         }
         meals.remove(at: indexPath.row)
         // Save the meals.
@@ -140,9 +145,9 @@ class MealTableViewController: UITableViewController {
   //MARK: Private Methods
   
   private func loadSampleMeals() {
-    let photo1 = UIImage(named: "meal1")
-    let photo2 = UIImage(named: "meal2")
-    let photo3 = UIImage(named: "meal3")
+//    let photo1 = UIImage(named: "meal1")
+//    let photo2 = UIImage(named: "meal2")
+//    let photo3 = UIImage(named: "meal3")
 //    guard let meal1 = Meal(name: "Caprese Salad", photo: photo1, rating: 4) else {
 //      fatalError("Unable to instantiate meal1")
 //    }
@@ -172,9 +177,29 @@ class MealTableViewController: UITableViewController {
     CloudTrackerManager.shared.getAllMeal(completion: { (mealArray, error) -> (Void) in
       if error == nil, let mealArray = mealArray{
         self.meals = mealArray
-        self.tableView.reloadData()
+        
+        DispatchQueue.main.async {
+          self.tableView.reloadData()
+        }
       }
     })
+  }
+  
+  private func loadMealImage(meal: Meal, completion: @escaping (Error?)->(Void)) {
+    guard let imagePath = meal.imagePath,
+      let url = URL(string: imagePath) else{
+        return
+    }
+    
+    let task = URLSession.shared.dataTask(with: url){ data, urlResponse, error in
+      if let data = data {
+         meal.photo = UIImage(data: data)
+         print("photo loaded")
+         completion(nil)
+      }
+    }
+    
+    task.resume()
   }
   
   //MARK: Actions

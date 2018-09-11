@@ -27,6 +27,7 @@ class Meal : NSObject, NSCoding{
   var rating: Int
   var calories: Int
   var mealDescription: String
+  var imagePath: String?
   
   //MARK: Archiving Paths
   
