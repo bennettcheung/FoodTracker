@@ -73,6 +73,10 @@ class MealTableViewController: UITableViewController {
     override func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCellEditingStyle, forRowAt indexPath: IndexPath) {
       if editingStyle == .delete {
         // Delete the row from the data source
+        let meal = meals[indexPath.row]
+        CloudTrackerManager.shared.delete(mealID: meal.id) { (error) -> (Void) in
+          print(error)
+        }
         meals.remove(at: indexPath.row)
         // Save the meals.
         saveMeals()

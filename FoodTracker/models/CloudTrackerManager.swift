@@ -368,4 +368,48 @@ class CloudTrackerManager {
     
   }
   
+  func delete(mealID:Int, completion: @escaping  (Error?)->(Void)){
+    
+    let url = URL(string: ACCESS_MEAL_URL + "/\(mealID)")!
+    let request = NSMutableURLRequest(url: url)
+
+    request.httpMethod = "DELETE"
+    request.addValue("application/json", forHTTPHeaderField: "Content-Type")
+    if let savedToken = savedToken{
+      request.addValue(savedToken, forHTTPHeaderField: "token")
+    }
+    let task = URLSession.shared.dataTask(with: request as URLRequest) { (data: Data?, response: URLResponse?, error: Error?) in
+      
+      guard let data = data else {
+        print("no data returned from server \(String(describing: error?.localizedDescription))")
+        return
+      }
+      
+      guard let response = response as? HTTPURLResponse else {
+        print("no response returned from server \(String(describing: error))")
+        completion(CloudTrackerAPIError.requestError)
+        return
+      }
+      
+      guard let json = try? JSONSerialization.jsonObject(with: data, options: []) as! Dictionary<String, Any> else {
+        print("data returned is not json, or not valid")
+        completion(CloudTrackerAPIError.invalidJSON)
+        return
+      }
+
+      guard response.statusCode == 200 else {
+        // handle error
+        print("an error occurred \(String(describing: json["error"]))")
+        completion(CloudTrackerAPIError.badCredentials)
+        return
+      }
+      
+      // do something with the json object
+      completion(nil)
+      
+    }
+    
+    task.resume()
+    
+  }
 }

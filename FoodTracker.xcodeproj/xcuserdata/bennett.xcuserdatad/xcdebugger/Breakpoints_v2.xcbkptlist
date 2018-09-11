@@ -10,11 +10,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "FoodTracker/models/CloudTrackerManager.swift"
-            timestampString = "558339131.9618649"
+            timestampString = "558340408.046569"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "262"
-            endingLineNumber = "262"
+            startingLineNumber = "261"
+            endingLineNumber = "261"
             landmarkName = "saveMealImageURL(meal:url:completion:)"
             landmarkType = "7">
             <Locations>
@@ -26,12 +26,12 @@
                   moduleName = "FoodTracker"
                   usesParentBreakpointCondition = "Yes"
                   urlString = "file:///Users/bennett/Documents/FoodTracker/FoodTracker/models/CloudTrackerManager.swift"
-                  timestampString = "558339132.127273"
+                  timestampString = "558340408.086568"
                   startingColumnNumber = "9223372036854775807"
                   endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "262"
-                  endingLineNumber = "262"
-                  offsetFromSymbolStart = "1004">
+                  startingLineNumber = "261"
+                  endingLineNumber = "261"
+                  offsetFromSymbolStart = "1011">
                </Location>
                <Location
                   shouldBeEnabled = "Yes"
@@ -41,11 +41,11 @@
                   moduleName = "FoodTracker"
                   usesParentBreakpointCondition = "Yes"
                   urlString = "file:///Users/bennett/Documents/FoodTracker/FoodTracker/models/CloudTrackerManager.swift"
-                  timestampString = "558339132.131003"
+                  timestampString = "558340408.102983"
                   startingColumnNumber = "9223372036854775807"
                   endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "264"
-                  endingLineNumber = "264"
+                  startingLineNumber = "263"
+                  endingLineNumber = "263"
                   offsetFromSymbolStart = "50">
                </Location>
             </Locations>
@@ -58,11 +58,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "FoodTracker/models/CloudTrackerManager.swift"
-            timestampString = "558339131.9625289"
+            timestampString = "558340408.0472879"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "270"
-            endingLineNumber = "270"
+            startingLineNumber = "269"
+            endingLineNumber = "269"
             landmarkName = "saveMealImageURL(meal:url:completion:)"
             landmarkType = "7">
          </BreakpointContent>
@@ -74,11 +74,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "FoodTracker/models/CloudTrackerManager.swift"
-            timestampString = "558339131.96299"
+            timestampString = "558340408.047792"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "274"
-            endingLineNumber = "274"
+            startingLineNumber = "273"
+            endingLineNumber = "273"
             landmarkName = "saveMealImageURL(meal:url:completion:)"
             landmarkType = "7">
          </BreakpointContent>
@@ -90,11 +90,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "FoodTracker/models/CloudTrackerManager.swift"
-            timestampString = "558339131.963401"
+            timestampString = "558340408.048269"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "332"
-            endingLineNumber = "332"
+            startingLineNumber = "331"
+            endingLineNumber = "331"
             landmarkName = "postImage(image:completion:)"
             landmarkType = "7">
             <Locations>
@@ -106,11 +106,11 @@
                   moduleName = "FoodTracker"
                   usesParentBreakpointCondition = "Yes"
                   urlString = "file:///Users/bennett/Documents/FoodTracker/FoodTracker/models/CloudTrackerManager.swift"
-                  timestampString = "558339132.161118"
+                  timestampString = "558340408.170192"
                   startingColumnNumber = "9223372036854775807"
                   endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "332"
-                  endingLineNumber = "332"
+                  startingLineNumber = "331"
+                  endingLineNumber = "331"
                   offsetFromSymbolStart = "2988">
                </Location>
                <Location
@@ -121,11 +121,11 @@
                   moduleName = "FoodTracker"
                   usesParentBreakpointCondition = "Yes"
                   urlString = "file:///Users/bennett/Documents/FoodTracker/FoodTracker/models/CloudTrackerManager.swift"
-                  timestampString = "558339132.164609"
+                  timestampString = "558340408.174457"
                   startingColumnNumber = "9223372036854775807"
                   endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "334"
-                  endingLineNumber = "334"
+                  startingLineNumber = "333"
+                  endingLineNumber = "333"
                   offsetFromSymbolStart = "50">
                </Location>
             </Locations>
@@ -138,11 +138,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "FoodTracker/models/CloudTrackerManager.swift"
-            timestampString = "558339131.963691"
+            timestampString = "558340408.048667"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "216"
-            endingLineNumber = "216"
+            startingLineNumber = "217"
+            endingLineNumber = "217"
             landmarkName = "saveMeal(meal:completion:)"
             landmarkType = "7">
             <Locations>
@@ -154,11 +154,11 @@
                   moduleName = "FoodTracker"
                   usesParentBreakpointCondition = "Yes"
                   urlString = "file:///Users/bennett/Documents/FoodTracker/FoodTracker/models/CloudTrackerManager.swift"
-                  timestampString = "558339132.173315"
+                  timestampString = "558340408.206238"
                   startingColumnNumber = "9223372036854775807"
                   endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "216"
-                  endingLineNumber = "216"
+                  startingLineNumber = "217"
+                  endingLineNumber = "217"
                   offsetFromSymbolStart = "230">
                </Location>
                <Location
@@ -169,11 +169,11 @@
                   moduleName = "FoodTracker"
                   usesParentBreakpointCondition = "Yes"
                   urlString = "file:///Users/bennett/Documents/FoodTracker/FoodTracker/models/CloudTrackerManager.swift"
-                  timestampString = "558339132.176438"
+                  timestampString = "558340408.2094851"
                   startingColumnNumber = "9223372036854775807"
                   endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "217"
-                  endingLineNumber = "217"
+                  startingLineNumber = "218"
+                  endingLineNumber = "218"
                   offsetFromSymbolStart = "22">
                </Location>
             </Locations>
@@ -186,11 +186,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "FoodTracker/models/CloudTrackerManager.swift"
-            timestampString = "558339131.963944"
+            timestampString = "558340408.048936"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "211"
-            endingLineNumber = "211"
+            startingLineNumber = "212"
+            endingLineNumber = "212"
             landmarkName = "saveMeal(meal:completion:)"
             landmarkType = "7">
          </BreakpointContent>
@@ -202,11 +202,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "FoodTracker/models/CloudTrackerManager.swift"
-            timestampString = "558339131.964192"
+            timestampString = "558340408.049305"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "334"
-            endingLineNumber = "334"
+            startingLineNumber = "333"
+            endingLineNumber = "333"
             landmarkName = "postImage(image:completion:)"
             landmarkType = "7">
          </BreakpointContent>
