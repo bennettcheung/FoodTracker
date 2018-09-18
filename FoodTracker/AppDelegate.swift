@@ -8,6 +8,7 @@
 
 import UIKit
 import CoreData
+import Parse
 
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate {
@@ -17,6 +18,13 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
   func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey: Any]?) -> Bool {
     // Override point for customization after application launch.
+    
+    let configuration = ParseClientConfiguration {
+      $0.applicationId = "873f1ca0-7326-46f7-bc7f-1e86625c3d4c"
+      $0.clientKey = ""
+      $0.server = "https://parsefoodtracker.herokuapp.com/parse"
+    }
+    Parse.initialize(with: configuration)
     return true
   }
 

@@ -8,7 +8,7 @@
 
 import UIKit
 import os.log
-
+import Parse
 
 class MealViewController: UIViewController  {
   /*
@@ -34,7 +34,14 @@ class MealViewController: UIViewController  {
     if let meal = meal {
       navigationItem.title = meal.name
       nameTextField.text   = meal.name
-      photoImageView.image = meal.photo
+
+      meal.pfPhoto?.getDataInBackground (block: { (data, error) -> Void in
+        if error == nil {
+          if let imageData = data {
+            self.photoImageView.image = UIImage(data:imageData)
+          }
+        }
+      })
       ratingControl.rating = meal.rating
     }
     
@@ -108,10 +115,14 @@ extension MealViewController : UIImagePickerControllerDelegate, UINavigationCont
     
     let name = nameTextField.text ?? ""
     let photo = photoImageView.image
+    
+    let photoData = UIImagePNGRepresentation(photo!)
+    
+    let pfFile = PFFile(data: photoData!)
     let rating = ratingControl.rating
     
     // Set the meal to be passed to MealTableViewController after the unwind segue.
-    meal = Meal(name: name, photo: photo, rating: rating)
+    meal = Meal(name: name, pfPhoto: pfFile!, rating: rating)
   }
   
   //MARK: Navigation
