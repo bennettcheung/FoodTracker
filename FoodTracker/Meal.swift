@@ -28,20 +28,6 @@ class Meal : PFObject, PFSubclassing {
   
   @NSManaged var name: String
   @NSManaged var pfPhoto: PFFile?
-//  var photo: UIImage? {
-//    set {
-//            self.photo = newValue
-//      if newValue != nil {
-//
-//        if let imageData = UIImagePNGRepresentation(newValue!){
-//          pfPhoto = PFFile(data: imageData)
-//          }
-//        }
-//      }
-//    get {
-//      return self.photo
-//    }
-//  }
   @NSManaged var rating: Int
   
   //MARK: Archiving Paths
