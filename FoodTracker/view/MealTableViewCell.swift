@@ -27,5 +27,10 @@ class MealTableViewCell: UITableViewCell {
 
         // Configure the view for the selected state
     }
-
+  
+  override func prepareForReuse() {
+    nameLabel.text = ""
+    photoImageView.image = nil
+    ratingControl.rating = 0
+  }
 }
